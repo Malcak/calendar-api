@@ -1,8 +1,7 @@
 import express from 'express';
 import helmet from 'helmet';
 import path from 'path';
-
-import { loadApiEndpoints } from './controllers/api';
+import { apiRouter } from './api/api';
 
 // Create Express server
 const app = express();
@@ -17,6 +16,6 @@ app.use(
   express.static(path.join(__dirname, '../public'), { maxAge: 31557600000 })
 );
 
-loadApiEndpoints(app);
+app.use('/api', apiRouter);
 
 export default app;
