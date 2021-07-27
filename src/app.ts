@@ -1,10 +1,14 @@
 import express from 'express';
 import helmet from 'helmet';
 import path from 'path';
-import { apiRouter } from './api/api';
+import dbConecction from './shared/infrastructure/database/mongooseConfig';
+import { apiRouter } from './shared/infrastructure/api/api';
 
 // Create Express server
 const app = express();
+
+// Create Database Connection
+dbConecction().then((r) => console.log(r));
 
 // Express configuration
 app.set('port', process.env.PORT || 4000);
