@@ -5,11 +5,10 @@ import app from './app';
  */
 const server = app.listen(app.get('port'), () => {
   console.log(
-    '  App is running at http://localhost:%d in %s mode',
-    app.get('port'),
-    app.get('env')
+    `🚀 Server is running at \x1b[1mhttp://localhost:${app.get(
+      'port'
+    )}\x1b[0m in \x1b[1m${app.get('env')}\x1b[0m mode`
   );
-  console.log('  Press CTRL-C to stop\n');
 });
 
 export default server;

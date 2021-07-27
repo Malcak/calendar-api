@@ -8,7 +8,9 @@ import { apiRouter } from './shared/infrastructure/api/api';
 const app = express();
 
 // Create Database Connection
-dbConecction().then(() => console.log('connected to database'));
+dbConecction().then(() =>
+  console.log('\x1b[32m✔ \x1b[37m Connected to Database')
+);
 
 // Express configuration
 app.set('port', process.env.PORT || 4000);
