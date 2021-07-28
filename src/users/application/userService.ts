@@ -1,6 +1,5 @@
 import bcryptjs from 'bcryptjs';
 import User from '../domain/user';
-import UserModel from '../../shared/infrastructure/database/schemas/user';
 import { findUserByEmail, saveUser } from '../infrastructure/userRepository';
 
 const createUser = async (user: User) => {
@@ -11,15 +10,14 @@ const createUser = async (user: User) => {
     return Promise.reject('user already exists');
   }
 
-  const newUser = new UserModel(user);
   const salt = bcryptjs.genSaltSync();
-  newUser.password = bcryptjs.hashSync(password, salt);
+  user.password = bcryptjs.hashSync(password, salt);
 
-  return await saveUser(newUser);
+  return await saveUser(user);
 };
 
 const loginUser = async (email: string, password: string) => {
-  const findedUser = await UserModel.findOne({ email });
+  const findedUser = await findUserByEmail(email);
   if (!findedUser) {
     return Promise.reject('incorrect email or password');
   }
