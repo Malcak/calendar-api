@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { eventRouter } from '../modules/events/infrastructure/eventRouter';
-import { userRouter } from '../modules/users/infrastructure/userRouter';
+import { eventRouter } from '../../../events/infrastructure/eventRouter';
+import { userRouter } from '../../../users/infrastructure/userRouter';
 
 const apiRouter = Router();
 
