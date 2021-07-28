@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import { eventRouter } from '../../../events/infrastructure/eventRouter';
 import { userRouter } from '../../../users/infrastructure/userRouter';
 

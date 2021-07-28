@@ -1,12 +1,14 @@
 import { Request, Response } from 'express';
-import userResponse from './userResponse';
+
 import genJWT from '../../shared/infrastructure/helpers/jwt';
 import { createUser, loginUser } from '../application/userService';
+import User from '../domain/user';
+import userResponse from './userResponse';
 
-const create = async (req: Request, res: Response) => {
+const create = async (req: Request, res: Response): Promise<void> => {
   try {
     createUser(req.body)
-      .then(async (user: any) => {
+      .then(async (user: User) => {
         const token = await genJWT(user._id, user.name, user.email);
         return res.status(201).send(userResponse({ user, token }));
       })
@@ -19,10 +21,10 @@ const create = async (req: Request, res: Response) => {
   }
 };
 
-const login = async (req: Request, res: Response) => {
+const login = async (req: Request, res: Response): Promise<void> => {
   try {
     loginUser(req.body.email, req.body.password)
-      .then(async (user: any) => {
+      .then(async (user: User) => {
         const token = await genJWT(user._id, user.name, user.email);
         return res.status(200).send(userResponse({ user, token }));
       })
@@ -35,13 +37,12 @@ const login = async (req: Request, res: Response) => {
   }
 };
 
-const renewToken = async (req: Request, res: Response) => {
+const renewToken = (req: Request, res: Response): void => {
   try {
-    const { _id, name, email } = req.body;
-    const token = await genJWT(_id, name, email);
-    return res
-      .status(200)
-      .send(userResponse({ user: { _id, name, email }, token }));
+    const user = req.body;
+    genJWT(user._id, user.name, user.email).then((token) => {
+      return res.status(200).send(userResponse({ user, token }));
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send(userResponse({ error: 'internal server error' }));

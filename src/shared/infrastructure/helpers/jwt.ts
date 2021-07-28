@@ -1,6 +1,10 @@
 import jwt from 'jsonwebtoken';
 
-const genJWT = (_id: string, name: string, email: string) => {
+const genJWT = (
+  _id: string,
+  name: string,
+  email: string
+): Promise<string | undefined> => {
   return new Promise((resolve, reject) => {
     const payload = { _id, name, email };
     jwt.sign(

@@ -1,13 +1,26 @@
-const userResponse = ({ user, token, error }: any) => {
-  if (!error) {
+import Result from '../../shared/logic/result';
+import User from '../domain/user';
+
+const userResponse = ({
+  user,
+  token,
+  error,
+}: {
+  user?: User;
+  token?: string;
+  error?: string;
+}): Result => {
+  if (!error && user) {
     return {
       ok: true,
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
+      data: {
+        user: {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+        },
+        token,
       },
-      token,
     };
   } else {
     return {

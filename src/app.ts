@@ -1,9 +1,10 @@
+import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
-import cors from 'cors';
 import path from 'path';
-import dbConecction from './shared/infrastructure/database/mongooseConfig';
+
 import { apiRouter } from './shared/infrastructure/api/api';
+import dbConecction from './shared/infrastructure/database/mongooseConfig';
 
 // Create Express server
 const app = express();

@@ -1,7 +1,11 @@
-import { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
+import { NextFunction, Request, Response } from 'express';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
-const validateJWT = (req: Request, res: Response, next: Function) => {
+const validateJWT = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): unknown => {
   const token = req.header('x-token');
 
   if (!token) {
@@ -12,7 +16,11 @@ const validateJWT = (req: Request, res: Response, next: Function) => {
   }
 
   try {
-    const payload = jwt.verify(token, process.env.SECRET_JWT_KEY || '') as any;
+    const payload = jwt.verify(
+      token,
+      process.env.SECRET_JWT_KEY || ''
+    ) as JwtPayload;
+
     req.body._id = payload._id;
     req.body.name = payload.name;
   } catch (error) {

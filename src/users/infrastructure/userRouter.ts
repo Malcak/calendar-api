@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
+
 import validateFields from '../../shared/infrastructure/middlewares/validateFields';
 import validateJWT from '../../shared/infrastructure/middlewares/validateJWT';
 import { create, login, renewToken } from './userController';

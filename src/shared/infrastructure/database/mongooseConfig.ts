@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const dbConecction = async () => {
+const dbConecction = async (): Promise<void> => {
   try {
     await mongoose.connect(
       process.env.DB_CNN || 'mongodb://localhost:27017/calendar',
