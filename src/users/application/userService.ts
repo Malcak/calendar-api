@@ -6,7 +6,7 @@ import { findByEmail, save } from '../infrastructure/userRepository';
 const saveUser = async (user: User): Promise<User> => {
   const findedUser = await findByEmail(user.email);
   if (findedUser) {
-    return Promise.reject('user already exists');
+    return Promise.reject({ email: { msg: 'user already exists' } });
   }
 
   const salt = bcryptjs.genSaltSync();
@@ -21,12 +21,16 @@ const authenticateUser = async (
 ): Promise<User> => {
   const findedUser = await findByEmail(email);
   if (!findedUser) {
-    return Promise.reject('incorrect email or password');
+    return Promise.reject({
+      authentication: { msg: 'incorrect email or password' },
+    });
   }
-
+  //
   const isPasswordValid = bcryptjs.compareSync(password, findedUser.password);
   if (!isPasswordValid) {
-    return Promise.reject('incorrect email or password');
+    return Promise.reject({
+      authentication: { msg: 'incorrect email or password' },
+    });
   }
 
   return Promise.resolve(findedUser);

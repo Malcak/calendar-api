@@ -11,7 +11,7 @@ const validateFields = (
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return res.status(400).json(failedResponse(errors));
+    return res.status(400).json(failedResponse(errors.mapped()));
   }
 
   next();

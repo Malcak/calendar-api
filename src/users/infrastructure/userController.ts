@@ -18,11 +18,13 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
           .send(successfulResponse({ user: { _id, name, email }, token }));
       })
       .catch((error) => {
-        return res.status(409).send(failedResponse({ msg: error }));
+        return res.status(409).send(failedResponse(error));
       });
   } catch (error) {
     console.log(error);
-    res.status(500).send(failedResponse({ msg: 'internal server error' }));
+    res
+      .status(500)
+      .send(failedResponse({ server: { msg: 'internal server error' } }));
   }
 };
 
@@ -36,11 +38,13 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
           .send(successfulResponse({ user: { _id, name, email }, token }));
       })
       .catch((error) => {
-        return res.status(400).send(failedResponse({ msg: error }));
+        return res.status(400).send(failedResponse(error));
       });
   } catch (error) {
     console.log(error);
-    res.status(500).send(failedResponse({ msg: 'internal server error' }));
+    res
+      .status(500)
+      .send(failedResponse({ server: { msg: 'internal server error' } }));
   }
 };
 
@@ -52,7 +56,9 @@ const renewToken = (req: Request, res: Response): void => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).send(failedResponse({ msg: 'internal server error' }));
+    res
+      .status(500)
+      .send(failedResponse({ server: { msg: 'internal server error' } }));
   }
 };
 
