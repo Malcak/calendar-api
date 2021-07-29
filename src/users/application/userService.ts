@@ -1,10 +1,10 @@
 import bcryptjs from 'bcryptjs';
 
 import User from '../domain/user';
-import { findUserByEmail, saveUser } from '../infrastructure/userRepository';
+import { findByEmail, save } from '../infrastructure/userRepository';
 
-const createUser = async (user: User): Promise<User> => {
-  const findedUser = await findUserByEmail(user.email);
+const saveUser = async (user: User): Promise<User> => {
+  const findedUser = await findByEmail(user.email);
   if (findedUser) {
     return Promise.reject('user already exists');
   }
@@ -12,11 +12,14 @@ const createUser = async (user: User): Promise<User> => {
   const salt = bcryptjs.genSaltSync();
   user.password = bcryptjs.hashSync(user.password, salt);
 
-  return await saveUser(user);
+  return await save(user);
 };
 
-const loginUser = async (email: string, password: string): Promise<User> => {
-  const findedUser = await findUserByEmail(email);
+const authenticateUser = async (
+  email: string,
+  password: string
+): Promise<User> => {
+  const findedUser = await findByEmail(email);
   if (!findedUser) {
     return Promise.reject('incorrect email or password');
   }
@@ -29,4 +32,4 @@ const loginUser = async (email: string, password: string): Promise<User> => {
   return Promise.resolve(findedUser);
 };
 
-export { createUser, loginUser };
+export { authenticateUser, saveUser };

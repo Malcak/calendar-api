@@ -3,7 +3,7 @@ import { body } from 'express-validator';
 
 import validateFields from '../../shared/infrastructure/middlewares/validateFields';
 import validateJWT from '../../shared/infrastructure/middlewares/validateJWT';
-import { create, login, renewToken } from './userController';
+import { createUser, loginUser, renewToken } from './userController';
 
 const userRouter = Router();
 
@@ -15,7 +15,7 @@ userRouter.post(
     body('password', 'weak password').isStrongPassword(),
     validateFields,
   ],
-  create
+  createUser
 );
 
 userRouter.post(
@@ -25,7 +25,7 @@ userRouter.post(
     body('email', 'email not valid').isEmail().normalizeEmail(),
     validateFields,
   ],
-  login
+  loginUser
 );
 
 userRouter.post('/renew', validateJWT, renewToken);

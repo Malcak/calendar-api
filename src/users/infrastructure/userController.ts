@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 
 import genJWT from '../../shared/infrastructure/helpers/jwt';
-import { createUser, loginUser } from '../application/userService';
+import { authenticateUser, saveUser } from '../application/userService';
 import User from '../domain/user';
 import userResponse from './userResponse';
 
-const create = async (req: Request, res: Response): Promise<void> => {
+const createUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    createUser(req.body)
+    saveUser(req.body)
       .then(async (user: User) => {
         const token = await genJWT(user._id, user.name, user.email);
         return res.status(201).send(userResponse({ user, token }));
@@ -21,9 +21,9 @@ const create = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-const login = async (req: Request, res: Response): Promise<void> => {
+const loginUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    loginUser(req.body.email, req.body.password)
+    authenticateUser(req.body.email, req.body.password)
       .then(async (user: User) => {
         const token = await genJWT(user._id, user.name, user.email);
         return res.status(200).send(userResponse({ user, token }));
@@ -49,4 +49,4 @@ const renewToken = (req: Request, res: Response): void => {
   }
 };
 
-export { create, login, renewToken };
+export { createUser, loginUser, renewToken };
