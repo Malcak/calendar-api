@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 
+import { failedResponse } from '../../logic/response';
+
 const validateFields = (
   req: Request,
   res: Response,
@@ -9,10 +11,7 @@ const validateFields = (
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return res.status(400).json({
-      ok: false,
-      errors: errors.mapped(),
-    });
+    return res.status(400).json(failedResponse(errors));
   }
 
   next();

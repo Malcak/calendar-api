@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
+import { failedResponse } from '../../logic/response';
+
 const validateJWT = (
   req: Request,
   res: Response,
@@ -9,10 +11,9 @@ const validateJWT = (
   const token = req.header('x-token');
 
   if (!token) {
-    return res.status(401).json({
-      ok: false,
-      msg: 'missing token in the request',
-    });
+    return res
+      .status(401)
+      .json(failedResponse({ msg: 'missing token in the request' }));
   }
 
   try {
@@ -23,11 +24,9 @@ const validateJWT = (
 
     req.body._id = payload._id;
     req.body.name = payload.name;
+    req.body.email = payload.email;
   } catch (error) {
-    return res.status(401).json({
-      ok: false,
-      msg: 'invalid token',
-    });
+    return res.status(401).json(failedResponse({ msg: 'invalid token' }));
   }
 
   next();
