@@ -6,9 +6,7 @@ const findByEmail = async (email: string): Promise<User | null> => {
 };
 
 const save = async (user: User): Promise<User> => {
-  const newUser = new UserModel(user);
-  await newUser.save();
-  return newUser;
+  return await new UserModel(user).save();
 };
 
 export { findByEmail, save };
