@@ -6,13 +6,13 @@ import {
 } from '../../shared/logic/response';
 import {
   findAllEvents,
-  saveEvent,
-  findAndUpdateEvent,
   findAndDeleteEvent,
+  findAndUpdateEvent,
+  saveEvent,
 } from '../application/eventService';
 import Event from '../domain/event';
 
-const readEvents = async (req: Request, res: Response) => {
+const readEvents = async (req: Request, res: Response): Promise<unknown> => {
   try {
     return res
       .status(200)
@@ -25,7 +25,7 @@ const readEvents = async (req: Request, res: Response) => {
   }
 };
 
-const createEvent = async (req: Request, res: Response) => {
+const createEvent = async (req: Request, res: Response): Promise<unknown> => {
   try {
     req.body.user = req.body._id;
     delete req.body._id;
@@ -38,7 +38,7 @@ const createEvent = async (req: Request, res: Response) => {
   }
 };
 
-const updateEvent = (req: Request, res: Response) => {
+const updateEvent = (req: Request, res: Response): void => {
   try {
     const requester = req.body._id;
     req.body._id = req.params.id;
@@ -57,7 +57,7 @@ const updateEvent = (req: Request, res: Response) => {
   }
 };
 
-const deleteEvent = (req: Request, res: Response) => {
+const deleteEvent = (req: Request, res: Response): void => {
   try {
     const requester = req.body._id;
     findAndDeleteEvent(req.params.id, requester)

@@ -1,5 +1,5 @@
-import { CustomValidator } from 'express-validator';
 import isValid from 'date-fns/isValid';
+import { CustomValidator } from 'express-validator';
 
 const isDate: CustomValidator = (value): boolean => {
   if (!value) {

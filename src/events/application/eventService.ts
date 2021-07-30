@@ -1,10 +1,10 @@
 import Event from '../domain/event';
 import {
   findAll,
-  save,
-  findByIdAndUpdate,
-  findByIdAndDelete,
   findById,
+  findByIdAndDelete,
+  findByIdAndUpdate,
+  save,
 } from '../infrastructure/eventRepository';
 
 const findAllEvents = async (user: string): Promise<Event[]> => {
@@ -55,4 +55,4 @@ const findAndDeleteEvent = async (
     : Promise.reject({ event: { msg: 'event not found' } });
 };
 
-export { findAllEvents, saveEvent, findAndUpdateEvent, findAndDeleteEvent };
+export { findAllEvents, findAndDeleteEvent, findAndUpdateEvent, saveEvent };

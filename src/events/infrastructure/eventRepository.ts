@@ -24,4 +24,4 @@ const findByIdAndDelete = async (id: string): Promise<Event | null> => {
   return await EventModel.findByIdAndDelete(id, { useFindAndModify: false });
 };
 
-export { findById, findAll, save, findByIdAndUpdate, findByIdAndDelete };
+export { findAll, findById, findByIdAndDelete, findByIdAndUpdate, save };
