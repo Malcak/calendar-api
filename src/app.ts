@@ -10,9 +10,13 @@ import dbConecction from './shared/infrastructure/database/mongooseConfig';
 const app = express();
 
 // Create Database Connection
-dbConecction().then(() =>
-  console.log('\x1b[32m✔ \x1b[37m Connected to Database')
-);
+dbConecction()
+  .then(() => console.log('\x1b[32m✔ \x1b[37m Connected to Database'))
+  .catch(() =>
+    console.log(
+      '\x1b[31m✖ \x1b[37m error when trying to connect to the database'
+    )
+  );
 
 // Express configuration
 app.set('port', process.env.PORT || 4000);
