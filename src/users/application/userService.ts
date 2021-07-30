@@ -25,7 +25,7 @@ const authenticateUser = async (
       authentication: { msg: 'incorrect email or password' },
     });
   }
-  //
+
   const isPasswordValid = bcryptjs.compareSync(password, findedUser.password);
   if (!isPasswordValid) {
     return Promise.reject({
