@@ -28,6 +28,6 @@ userRouter.post(
   loginUser
 );
 
-userRouter.post('/renew', validateJWT, renewToken);
+userRouter.get('/renew', validateJWT, renewToken);
 
 export { userRouter };
