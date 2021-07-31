@@ -6,10 +6,12 @@
   "scripts": {
     "start": "node ./dist/src/server.js",
     "dev": "ts-node-dev --cls -r dotenv/config ./src/server.ts",
-    "build": "tsc",
+    "build": "npm run clean && tsc && npm run copy-files",
     "lint": "eslint --ignore-path .gitignore . --ext .ts",
-    "lint:fix": "npm run lint -- --fix",
-    "test": "jest --verbose --passWithNoTests"
+    "lint:fix": "npm run lint --fix",
+    "test": "jest --verbose --passWithNoTests",
+    "clean": "rm -rf ./dist",
+    "copy-files": "cp -r ./public/ ./dist/"
   },
   "keywords": [],
   "author": "Malcak",
