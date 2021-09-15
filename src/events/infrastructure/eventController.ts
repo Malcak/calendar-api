@@ -12,11 +12,9 @@ import {
 } from '../application/eventService';
 import Event from '../domain/event';
 
-const readEvents = async (req: Request, res: Response): Promise<unknown> => {
+const readEvents = async (req: Request, res: Response): Promise<void> => {
   try {
-    return res
-      .status(200)
-      .send(successfulResponse(await findAllEvents(req.body._id)));
+    res.status(200).send(successfulResponse(await findAllEvents(req.body._id)));
   } catch (error) {
     console.log(error);
     res
@@ -25,11 +23,11 @@ const readEvents = async (req: Request, res: Response): Promise<unknown> => {
   }
 };
 
-const createEvent = async (req: Request, res: Response): Promise<unknown> => {
+const createEvent = async (req: Request, res: Response): Promise<void> => {
   try {
     req.body.user = req.body._id;
     delete req.body._id;
-    return res.status(201).send(successfulResponse(await saveEvent(req.body)));
+    res.status(201).send(successfulResponse(await saveEvent(req.body)));
   } catch (error) {
     console.log(error);
     res
@@ -44,10 +42,10 @@ const updateEvent = (req: Request, res: Response): void => {
     req.body._id = req.params.id;
     findAndUpdateEvent(req.body, requester)
       .then((event: Event) => {
-        return res.status(200).send(successfulResponse(event));
+        res.status(200).send(successfulResponse(event));
       })
       .catch((error) => {
-        return res.status(401).send(failedResponse(error));
+        res.status(401).send(failedResponse(error));
       });
   } catch (error) {
     console.log(error);
@@ -62,10 +60,10 @@ const deleteEvent = (req: Request, res: Response): void => {
     const requester = req.body._id;
     findAndDeleteEvent(req.params.id, requester)
       .then((event: Event) => {
-        return res.status(200).send(successfulResponse(event));
+        res.status(200).send(successfulResponse(event));
       })
       .catch((error) => {
-        return res.status(401).send(failedResponse(error));
+        res.status(401).send(failedResponse(error));
       });
   } catch (error) {
     console.log(error);

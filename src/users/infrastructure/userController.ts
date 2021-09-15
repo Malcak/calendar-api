@@ -13,12 +13,12 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
     saveUser(req.body)
       .then(async ({ _id, name, email }: User) => {
         const token = await genJWT(_id, name, email);
-        return res
+        res
           .status(201)
           .send(successfulResponse({ user: { _id, name, email }, token }));
       })
       .catch((error) => {
-        return res.status(409).send(failedResponse(error));
+        res.status(409).send(failedResponse(error));
       });
   } catch (error) {
     console.log(error);
@@ -33,12 +33,12 @@ const loginUser = async (req: Request, res: Response): Promise<void> => {
     authenticateUser(req.body.email, req.body.password)
       .then(async ({ _id, name, email }: User) => {
         const token = await genJWT(_id, name, email);
-        return res
+        res
           .status(200)
           .send(successfulResponse({ user: { _id, name, email }, token }));
       })
       .catch((error) => {
-        return res.status(400).send(failedResponse(error));
+        res.status(400).send(failedResponse(error));
       });
   } catch (error) {
     console.log(error);
@@ -52,7 +52,7 @@ const renewToken = (req: Request, res: Response): void => {
   try {
     const user = req.body;
     genJWT(user._id, user.name, user.email).then((token) => {
-      return res.status(200).send(successfulResponse({ user, token }));
+      res.status(200).send(successfulResponse({ user, token }));
     });
   } catch (error) {
     console.log(error);
