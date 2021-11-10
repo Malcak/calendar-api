@@ -14,7 +14,8 @@ import Event from '../domain/event';
 
 const readEvents = async (req: Request, res: Response): Promise<void> => {
   try {
-    res.status(200).send(successfulResponse(await findAllEvents(req.body._id)));
+    const events = await findAllEvents(req.body._id);
+    res.status(200).send(successfulResponse({ events }));
   } catch (error) {
     console.log(error);
     res
@@ -27,7 +28,8 @@ const createEvent = async (req: Request, res: Response): Promise<void> => {
   try {
     req.body.user = req.body._id;
     delete req.body._id;
-    res.status(201).send(successfulResponse(await saveEvent(req.body)));
+    const event = await saveEvent(req.body);
+    res.status(201).send(successfulResponse({ event }));
   } catch (error) {
     console.log(error);
     res
@@ -42,7 +44,7 @@ const updateEvent = (req: Request, res: Response): void => {
     req.body._id = req.params.id;
     findAndUpdateEvent(req.body, requester)
       .then((event: Event) => {
-        res.status(200).send(successfulResponse(event));
+        res.status(200).send(successfulResponse({ event }));
       })
       .catch((error) => {
         res.status(401).send(failedResponse(error));
@@ -60,7 +62,7 @@ const deleteEvent = (req: Request, res: Response): void => {
     const requester = req.body._id;
     findAndDeleteEvent(req.params.id, requester)
       .then((event: Event) => {
-        res.status(200).send(successfulResponse(event));
+        res.status(200).send(successfulResponse({ event }));
       })
       .catch((error) => {
         res.status(401).send(failedResponse(error));
